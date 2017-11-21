@@ -18,7 +18,7 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
   }
   // Authorize a client with the loaded credentials, then call the
   // Drive API.
-  authorize(JSON.parse(content), listFiles);
+  authorize(JSON.parse(content), testPost);
 });
 
 /**
@@ -119,7 +119,35 @@ function listFiles(auth) {
       for (var i = 0; i < files.length; i++) {
         var file = files[i];
         console.log('%s (%s)', file.name, file.id);
+        testFunctionsForIds(file.id);
       }
+    }
+  });
+}
+
+function testFunctionsForIds(fileId) {
+  var request = google.drive('v3');
+  console.log(`seen this file ${fileId}`);
+}
+
+function testPost(){
+  var fileMetadata = {
+    'name': 'test.js'
+  };
+  var media = {
+    mimeType: 'document',
+    body: fs.createReadStream('./legalmailer.js')
+  };
+  google.drive('v3').files.create({
+    resource: fileMetadata,
+    media: media,
+    fields: 'id'
+  }, function (err, file) {
+    if (err) {
+      // Handle error
+      console.error(err);
+    } else {
+      console.log('File Id: ', file.id);
     }
   });
 }
