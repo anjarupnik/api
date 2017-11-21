@@ -4,6 +4,8 @@ const { User } = require('../server/models')
 const jwtOptions = require('./jwt')
 const LocalStrategy = require('passport-local')
 const bcrypt = require('bcrypt')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 const tokenStrategy = new Strategy(jwtOptions, (jwtPayload, done) => {
   console.log('payload received', jwtPayload)
@@ -21,7 +23,7 @@ const tokenStrategy = new Strategy(jwtOptions, (jwtPayload, done) => {
 })
 
 passport.use(new LocalStrategy(( username, password, done) => {
-   User.find({where: {username}})
+   User.findOne({where: { username: { [Op.eq]: username } }})
      .then((user) => {
 
        bcrypt.compare(password, user.password, function(err, res) {
