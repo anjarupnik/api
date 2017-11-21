@@ -3,10 +3,13 @@ const { User } = require('../server/models')
 const passport = require('../config/auth')
 
 router.post('/users', (req, res, next) => {
+  var adminSet = (req.body.username === "admin") ? true : false
+
   User.create({
      username: req.body.username,
      email: req.body.email,
-     password: req.body.password
+     password: req.body.password,
+     admin: adminSet
     })
       .then(user=> res.status(201).send({username: user.username, email: user.email}))
       .catch(error => res.status(400).send(error));
