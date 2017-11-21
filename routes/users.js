@@ -22,8 +22,9 @@ router.get('/users/me', passport.authorize('jwt', { session: false }), (req, res
     error.status = 401
     next(error)
   }
-
+  if (req.account.admin === true ) {res.json({username: req.account.username, email: req.account.email, id: req.account.id, admin: req.account.admin})}
   res.json({username: req.account.username, email: req.account.email, id: req.account.id})
 })
+
 
 module.exports = router
