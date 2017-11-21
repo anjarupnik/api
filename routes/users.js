@@ -8,7 +8,7 @@ router.post('/users', (req, res, next) => {
      email: req.body.email,
      password: req.body.password
     })
-      .then(user=> res.status(201).send(user))
+      .then(user=> res.status(201).send({username: user.username, email: user.email}))
       .catch(error => res.status(400).send(error));
 
 })
@@ -20,7 +20,7 @@ router.get('/users/me', passport.authorize('jwt', { session: false }), (req, res
     next(error)
   }
 
-  res.json(req.account)
+  res.json({username: req.account.username, email: req.account.email, id: req.account.id})
 })
 
 module.exports = router
