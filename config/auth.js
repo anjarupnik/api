@@ -3,6 +3,7 @@ const { Strategy } = require('passport-jwt')
 const { User } = require('../server/models')
 const jwtOptions = require('./jwt')
 const LocalStrategy = require('passport-local')
+const bcrypt = require('bcrypt')
 
 const tokenStrategy = new Strategy(jwtOptions, (jwtPayload, done) => {
   console.log('payload received', jwtPayload)
@@ -19,28 +20,31 @@ const tokenStrategy = new Strategy(jwtOptions, (jwtPayload, done) => {
     .catch((err) => done(err, false))
 })
 
-passport.use(new LocalStrategy(( username, password, cb) => {
+passport.use(new LocalStrategy(( username, password, done) => {
    User.find({where: {username}})
      .then((user) => {
-       console.log(user.id)
+
+       bcrypt.compare(password, user.password, function(err, res) {
+       if(res) {
+         done(null, { id: user.id, username: user.username, email: user.email })
+        } else {
+         done(null, false)
+        }
+      })
      })
 
 
 }))
 
-passport.serializeUser((user, done) => {
-  done(null, user.id)
+passport.serializeUser(function(user, done) {
+    done(null, user.id)
+
 })
 
-passport.deserializeUser((id, cb) => {
-  legaljoe.query('SELECT id, username, type FROM users WHERE id = $1', [parseInt(id, 10)], (err, results) => {
-    if(err) {
-      winston.error('Error when selecting user on session deserialize', err)
-      return cb(err)
-    }
-
-    cb(null, results.rows[0])
-  })
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        done(err, user)
+    })
 })
 
 passport.use(tokenStrategy)
