@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   var User = sequelize.define('User', {
     username: DataTypes.STRING,
     email: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    admin: DataTypes.BOOLEAN
   }, {
     hooks: {
       beforeCreate: (user) => {
@@ -17,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       validPassword: function(password) {
         return bcrypt.compareSync(password, this.password);
       }
-    }    
+    }
   });
   return User;
 };
