@@ -15,10 +15,10 @@ const mailOptions = {
     to: 'legaljoemailer@gmail.com', // list of receivers
     subject: 'Hello', // Subject line
     text: 'Hello world ?', // plaintext body
-    attachment: {   // file on disk as an attachment
-            filename: 'legalmailer.js',
-            path: './legalmailer.js' // stream this file
-          }
+    attachments: [{   // file on disk as an attachment
+            filename: 'legalmailer.txt',
+            content: 'hello world!' // stream this file
+          }]
 };
 
 // send mail with defined transport object
@@ -28,3 +28,8 @@ transporter.sendMail(mailOptions, function(error, info){
     }
     console.log('Message sent: ' + info.response);
 });
+
+/**
+options for attachemnts can be found here:
+https://community.nodemailer.com/using-attachments/
+*/
