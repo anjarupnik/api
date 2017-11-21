@@ -2,7 +2,7 @@
   "development": {
     "username": "anja",
     "password": "batman",
-    "database": "postgres",
+    "database": "legaljoe",
     "host": "127.0.0.1",
     "port": 5432,
     "dialect": "postgres"
