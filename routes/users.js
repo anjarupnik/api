@@ -3,15 +3,18 @@ const { User } = require('../server/models')
 const passport = require('../config/auth')
 
 router.post('/users', (req, res, next) => {
-  var adminSet = (req.body.username === "admin") ? true : false
+  var adminSet = (req.body.username === "admin@email.com") ? true : false
 
   User.create({
+     firstName: req.body.firstName,
+     lastName: req.body.lastName,
      username: req.body.username,
-     email: req.body.email,
      password: req.body.password,
      admin: adminSet
     })
-      .then(user=> res.status(201).send({username: user.username, email: user.email}))
+      .then(user=> res.status(201).send({email: user.username, firstName: user.firstName,
+         lastName: user.lastName
+         }))
       .catch(error => res.status(400).send(error));
 
 })
@@ -22,8 +25,10 @@ router.get('/users/me', passport.authorize('jwt', { session: false }), (req, res
     error.status = 401
     next(error)
   }
-  if (req.account.admin === true ) {res.json({username: req.account.username, email: req.account.email, id: req.account.id, admin: req.account.admin})}
-  res.json({username: req.account.username, email: req.account.email, id: req.account.id})
+  if (req.account.admin === true ) {res.json({ email: req.account.username, id: req.account.id,
+     admin: req.account.admin})}
+  res.json({firstName: req.account.firstName, lastName: req.account.lastName,
+     email: req.account.username, id: req.account.id})
 })
 
 
