@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { User } = require('../server/models')
 const passport = require('../config/auth')
+const authenticate = passport.authorize('jwt', { session: false })
 
 router.post('/users', (req, res, next) => {
   var adminSet = (req.body.username === "admin@email.com") ? true : false
@@ -19,7 +20,7 @@ router.post('/users', (req, res, next) => {
 
 })
 
-router.get('/users/me', passport.authorize('jwt', { session: false }), (req, res, next) => {
+router.get('/users/me', authenticate, (req, res, next) => {
   if (!req.account) {
     const error = new Error('Unauthorized')
     error.status = 401
@@ -29,6 +30,23 @@ router.get('/users/me', passport.authorize('jwt', { session: false }), (req, res
      admin: req.account.admin})}
   res.json({firstName: req.account.firstName, lastName: req.account.lastName,
      email: req.account.username, id: req.account.id})
+})
+
+router.get('/users', authenticate, (req, res, next) => {
+  if (!req.account && req.account.admin === false) {
+    const error = new Error('Unauthorized')
+    error.status = 401
+    next(error)
+  }
+
+  User.all()
+  .then((users) => {
+    const noAdmin = users.filter(u=>u.admin === false)
+    const userDetails = noAdmin.map((u) =>
+     ({firstName: u.firstName, lastName: u.lastName,
+       email: u.username, id: u.id}))
+    res.json(userDetails)})
+  .catch((error) => next(error))
 })
 
 
