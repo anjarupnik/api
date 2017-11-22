@@ -27,7 +27,7 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
  * @param {Object} file the file to be sent
  */
 
-function testPost(auth){
+function postUserDoc(auth){
 
   var fileMetadata = {'name': 'test.js'};
   var media = {

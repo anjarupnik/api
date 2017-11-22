@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('userDocs', {
+    return queryInterface.createTable('UserDocs', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,9 +11,9 @@ module.exports = {
       gooDriDocId: {
         type: Sequelize.STRING
       },
-      userId: {
+      userEmail: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         // references: 'users',
         // referencesKey: 'id'
       },
@@ -28,6 +28,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('userDocs');
+    return queryInterface.dropTable('UserDocs');
   }
 };
