@@ -12,19 +12,27 @@ router.get('/items', (req, res, next) => {
 
    .put('/items/:id', authenticate, (req, res, next) => {
   const id = req.params.id
-
-  return pageItem
-   .findById(id)
-   .then((item) => {
-      if (!item) { return next() }
-      return item
-        .update({
-          title: req.body.title || item.title,
-          content: req.body.content || item.content,
-        })
-    .then(() => res.json(item))
-    .catch((error) => next(error))
-  })
+  if (req.account.admin === false) {
+    const error = new Error('Unauthorized')
+    error.status = 401
+    next(error)
+  }
+  else {
+    return pageItem
+     .findById(id)
+     .then((item) => {
+        if (!item) { return next() }
+        return item
+          .update({
+            title: req.body.title || item.title,
+            subtitle: req.body.subtitle || item.subtitle,
+            content: req.body.content || item.content,
+            urls: req.body.urls || item.urls
+          })
+      .then(() => res.json(item))
+      .catch((error) => next(error))
+    })
+  }
 })
 
 module.exports = router

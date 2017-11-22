@@ -26,8 +26,9 @@ router.get('/users/me', authenticate, (req, res, next) => {
     error.status = 401
     next(error)
   }
-  if (req.account.admin === true ) {res.json({ email: req.account.username, id: req.account.id,
-     admin: req.account.admin})}
+  if (req.account.admin === true ) {res.json({ firstName: req.account.firstName,
+    lastName: req.account.lastName,email: req.account.username, id: req.account.id,
+    admin: req.account.admin})}
   res.json({firstName: req.account.firstName, lastName: req.account.lastName,
      email: req.account.username, id: req.account.id})
 })
@@ -38,15 +39,16 @@ router.get('/users', authenticate, (req, res, next) => {
     error.status = 401
     next(error)
   }
-
-  User.all()
-  .then((users) => {
-    const noAdmin = users.filter(u=>u.admin === false)
-    const userDetails = noAdmin.map((u) =>
-     ({firstName: u.firstName, lastName: u.lastName,
-       email: u.username, id: u.id}))
-    res.json(userDetails)})
-  .catch((error) => next(error))
+  else {
+    User.all()
+    .then((users) => {
+      const noAdmin = users.filter(u=>u.admin === false)
+      const userDetails = noAdmin.map((u) =>
+       ({firstName: u.firstName, lastName: u.lastName,
+         email: u.username, id: u.id}))
+      res.json(userDetails)})
+    .catch((error) => next(error))
+  }
 })
 
 
