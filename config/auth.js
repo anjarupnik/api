@@ -23,12 +23,13 @@ const tokenStrategy = new Strategy(jwtOptions, (jwtPayload, done) => {
 })
 
 passport.use(new LocalStrategy(( username, password, done) => {
-   User.findOne({where: { username: { [Op.eq]: username } }})
+   User.findOne({where: { username: { [Op.eq]: username} }})
      .then((user) => {
 
        bcrypt.compare(password, user.password, function(err, res) {
        if(res) {
-         done(null, { id: user.id, username: user.username, email: user.email })
+         done(null, { id: user.id, firstName: user.firstName, lastName: user.lastName,
+            email: user.username })
         } else {
          done(null, false)
         }
