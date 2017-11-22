@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var File = sequelize.define('File', {
-    gdFileId: DataTypes.STRING,
+  var userDoc = sequelize.define('userDoc', {
+    gooDriDocId: DataTypes.STRING,
     userId: DataTypes.INTEGER
   }, {
     classMethods: {
@@ -10,5 +10,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  return File;
+  return userDoc;
 };
