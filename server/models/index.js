@@ -6,9 +6,11 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(`${__dirname}/../config/config.json`)[env];
 const db = {};
 const User = require('./user')
+const pageItem = require('./pageitem')
 
 module.exports = {
-  User
+  User,
+  pageItem
 }
 
 let sequelize;
