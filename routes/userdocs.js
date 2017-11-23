@@ -1,9 +1,10 @@
 const router = require('express').Router()
-var nodemailer = require('nodemailer');
-
+const { UserDoc } = require('../server/models')
+const nodemailer = require('nodemailer');
 
 //send an email with the input text
-router.post('/contracttext', (req, res, next) => {
+router.post('/userdocs', (req, res, next) => {
+  console.log("I am posting to userdocs")
   // create reusable transporter object using the default SMTP transport
   var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -38,7 +39,7 @@ router.post('/contracttext', (req, res, next) => {
   UserDoc.create({
     userEmail: req.body.email
   })
-    .then(user=> res.status(201).send())
+    .then(user=> res.status(201).send("I have your document"))
     .catch(error => res.status(400).send(error));
 })
 
