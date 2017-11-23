@@ -8,11 +8,13 @@ const db = {};
 const User = require('./user')
 const UserDoc = require('./userdoc')
 const pageItem = require('./pageitem')
+const Theme = require('./theme')
 
 module.exports = {
   User,
   UserDoc,
   pageItem,
+  Theme
 }
 
 let sequelize;
