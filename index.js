@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const passport = require('./config/auth')
 const http = require('http')
 
-const { users, sessions } = require('./routes')
+const { users, sessions, items } = require('./routes')
 
 const port = process.env.PORT || 3030
 
@@ -18,6 +18,7 @@ app
   .use(passport.initialize())
   .use(users)
   .use(sessions)
+  .use(items)
 
   .use((req, res, next) => {
     const err = new Error('Not Found')
