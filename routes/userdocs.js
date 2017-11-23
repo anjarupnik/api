@@ -9,7 +9,7 @@ router.post('/contracttext', (req, res, next) => {
     service: 'gmail',
     auth: {
       user: 'legaljoemailer@gmail.com',
-      pass: 'currentpassword'
+      pass: 'currentpassword'  //this should be set to an env-when we deploy
     }
   });
 
@@ -37,7 +37,6 @@ router.post('/contracttext', (req, res, next) => {
   })
     .then(user=> res.status(201).send())
     .catch(error => res.status(400).send(error));
-
 })
 
 module.exports = router
