@@ -18,7 +18,7 @@ module.exports = {
          },{
            name: 'footer',
            content: 'LegalJoe is een initiatief van Edouard Dopper die een voorliefde heeft voor Legal tech in samenwerking met AI applied. Joe is een AI bot.',
-           urls: ['https://facebook.com/', 'https://twitter.com/realdonaldtrump', 'https://www.linkedin.com/in/edouard-dopper-0426856/'],
+           urls: ['https://www.linkedin.com/company/11370017/', 'https://twitter.com/_LegalJoe'],
            createdAt: Sequelize.fn('NOW'),
            updatedAt: Sequelize.fn('NOW')
          }
