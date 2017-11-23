@@ -13,15 +13,18 @@ router.post('/contracttext', (req, res, next) => {
     }
   });
 
+  const userEmail = req.body.email
+  const userText = req.body.contract
+
   // setup e-mail data with unicode symbols
   const mailOptions = {
       from: 'legaljoemailer@gmail.com', // sender address
       to: 'legaljoemailer@gmail.com', // list of receivers
-      subject: 'Hello', // Subject line
-      text: 'Hello world ?', // plaintext body
+      subject: 'Sent contract', // Subject line
+      text: `A contract belonging to the user with the following email: ${userEmail}`, // plaintext body
       attachments: [{   // file on disk as an attachment
-              filename: 'legalmailer.txt',
-              content: 'hello world!' // stream this file
+              filename: 'contract.txt',
+              content: `${userText}` // stream this file
             }]
   };
 
