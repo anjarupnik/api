@@ -21,6 +21,12 @@ module.exports = {
            urls: ['https://www.linkedin.com/company/11370017/', 'https://twitter.com/_LegalJoe'],
            createdAt: Sequelize.fn('NOW'),
            updatedAt: Sequelize.fn('NOW')
+         },{
+           name: 'examples',
+           title: 'Wat ik doe',
+           urls: ['http://res.cloudinary.com/mdfchucknorris/image/upload/v1511429630/exampleContract1_qdetg7.png', 'http://res.cloudinary.com/mdfchucknorris/image/upload/v1511429634/exampleContract2_yf2vcb.png'],
+           createdAt: Sequelize.fn('NOW'),
+           updatedAt: Sequelize.fn('NOW')
          }
       ], {})
   },
