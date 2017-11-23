@@ -3,15 +3,15 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Themes', [{
-         primaryOne: '#00796B',
+         primaryOne: '#060c36',
          primaryTwo: '#FFC107',
          error: '#FFC107',
-         title: '#00796B',
+         title: '#060c36',
          titleTwo: '#FFFFFF',
-         subtitle: '#00796B',
-         subtitleTwo: 'rgba(222, 222, 222, 0.5)',
+         subtitle: '#060c36',
+         subtitleTwo: '#FFFFFF',
          textColor: '#3a3737',
-         textTwo: '#FFC107',
+         textTwo: '#00E676',
          canvas: '#FFFFFF',
          border: '#DEDEDE',
          disabled: 'rgba(222, 222, 222, 0.7)',
