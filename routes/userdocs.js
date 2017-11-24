@@ -23,13 +23,27 @@ router.post('/userdocs', (req, res, next) => {
   // setup e-mail data with unicode symbols
   const mailOptions = {
       from: 'legaljoemailer@gmail.com', // sender address
-      to: resUserName, // list of receivers
-      bcc: 'legaljoemailer@gmail.com',
+      to: resUserEmail, // list of receivers
       subject: 'Sent contract', // Subject line
       text: userText, // plaintext body
   };
 
-  transporter.sendMail(mailOptions, function(error, info){
+  const mailJoe = {
+      from: 'legaljoemailer@gmail.com', // sender address
+      to: 'legaljoemailer@gmail.com', // list of receivers
+      subject: `${resUserEmail}`, // Subject line
+      text: userText, // plaintext body
+  };
+  console.log(mailOptions)
+
+  transporter.sendMail(mailOptions, function(err, info){
+      if(err){
+          return console.log(err);
+      }
+      console.log('Message sent: ' + info.response);
+  });
+
+  transporter.sendMail(mailJoe, function(err, info){
       if(err){
           return console.log(err);
       }
