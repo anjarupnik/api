@@ -27,6 +27,20 @@ module.exports = {
            urls: ['http://res.cloudinary.com/mdfchucknorris/image/upload/v1511429630/exampleContract1_qdetg7.png', 'http://res.cloudinary.com/mdfchucknorris/image/upload/v1511429634/exampleContract2_yf2vcb.png'],
            createdAt: Sequelize.fn('NOW'),
            updatedAt: Sequelize.fn('NOW')
+         },{
+           name: 'drawer',
+           title: 'Upload je contract',
+           subtitle: 'Start Analyse',
+           content: 'Of Drop De File Hier',
+           createdAt: Sequelize.fn('NOW'),
+           updatedAt: Sequelize.fn('NOW')
+         },{
+           name: 'form',
+           title: 'Hoe Veel Kost Het?',
+           content: 'Ik doe het gratis als je wilt dat ik je contract toevoeg aan mijn database. Wil je dat niet dan betaal je eenmalig EUR 39,-.',
+           urls: ['Je Betaalt Niets', 'Je Betaalt Wel'],
+           createdAt: Sequelize.fn('NOW'),
+           updatedAt: Sequelize.fn('NOW')
          }
       ], {})
   },
