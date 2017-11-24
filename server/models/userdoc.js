@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     cloudinaryFileName: DataTypes.STRING,
     cloudinaryURL: DataTypes.STRING,
     paidContract: DataTypes.BOOLEAN
+    checkedContract: DataTypes.BOOLEAN
   }, {
     classMethods: {
       associate: function(models) {
