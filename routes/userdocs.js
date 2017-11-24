@@ -15,12 +15,14 @@ router.post('/userdocs', (req, res, next) => {
 
   const resUserName = req.body.data.tags[0]
   const resUserEmail = req.body.data.tags[1]
-  const resUserPaid = req.body.data.tags[2]
+  const resUserPaid = (req.body.data.tags[2] === "true")? true : false
+
   const resCloudinaryURL = req.body.data.secure_url
   const resCloudinaryFileName = req.body.data.public_id
 
-  const userText = (resUserPaid === true)? 'Je hebt gekozen voor de betaalde service, je contract wordt niet toegevoegd aan de Database' : 'Je hebt gekozen voor de gratis Contract Analyse, je contract is toegevoegd aan mijn database'
+  var userText = (resUserPaid === true)? ('Je hebt gekozen voor de betaalde service, je contract wordt niet toegevoegd aan de Database') : ('Je hebt gekozen voor de gratis Contract Analyse, je contract is toegevoegd aan mijn database')
   // setup e-mail data with unicode symbols
+    console.log(userText)
   const mailOptions = {
       from: 'legaljoemailer@gmail.com', // sender address
       to: resUserEmail, // list of receivers
@@ -54,7 +56,7 @@ router.post('/userdocs', (req, res, next) => {
     userEmail: resUserEmail,
     cloudinaryFileName: resCloudinaryFileName,
     cloudinaryURL: resCloudinaryURL,
-    paidContract: resUserPaid
+    paidContract: sresUserPaid
   })
     .then(user=> res.status(201).send("I have your document"))
     .catch(error => res.status(400).send(error));
