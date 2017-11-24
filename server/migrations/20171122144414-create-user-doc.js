@@ -12,6 +12,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      userName: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       cloudinaryFileName: {
         type: Sequelize.STRING
       },
@@ -22,7 +26,8 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       checkedContract: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,
