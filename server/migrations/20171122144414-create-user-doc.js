@@ -21,6 +21,9 @@ module.exports = {
       paidContract: {
         type: Sequelize.BOOLEAN
       },
+      checkedContract: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
