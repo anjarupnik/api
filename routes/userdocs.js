@@ -56,7 +56,7 @@ router.post('/userdocs', (req, res, next) => {
     userEmail: resUserEmail,
     cloudinaryFileName: resCloudinaryFileName,
     cloudinaryURL: resCloudinaryURL,
-    paidContract: sresUserPaid
+    paidContract: resUserPaid
   })
     .then(user=> res.status(201).send("I have your document"))
     .catch(error => res.status(400).send(error));
