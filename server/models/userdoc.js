@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     userEmail: DataTypes.STRING,
     cloudinaryFileName: DataTypes.STRING,
     cloudinaryURL: DataTypes.STRING,
-    paidContract: DataTypes.BOOLEAN
+    paidContract: DataTypes.BOOLEAN,
     checkedContract: DataTypes.BOOLEAN
   }, {
     classMethods: {
