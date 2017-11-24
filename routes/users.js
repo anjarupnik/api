@@ -51,6 +51,7 @@ router.get('/users', authenticate, (req, res, next) => {
   }
 })
 
+
 router.post('/docs', authenticate, (req, res, next) => {
   const email = req.body.email
   if (!req.account) {
@@ -69,6 +70,18 @@ router.post('/docs', authenticate, (req, res, next) => {
 
 })
 
+router.patch('/userdocs/:id', (req, res, next) => {
+  return UserDoc.findById(req.params.id)
+   .then((userDoc) => {
+      if (!userDoc) { return next() }
+      return userDoc
+        .update({
+          checkedContract: !(userDoc.checkedContract)
+        })
+    .then(() => res.status(201).send("Document set to checked"))
+    .catch((error) => next(error))
+  })
+})
 
 
 module.exports = router
