@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const { UserDoc } = require('../server/models')
 const nodemailer = require('nodemailer');
+const passport = require('../config/auth')
+const authenticate = passport.authorize('jwt', { session: false })
 
 //send an email with the input text
 router.post('/userdocs', (req, res, next) => {
