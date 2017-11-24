@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User } = require('../server/models')
+const { User, UserDoc } = require('../server/models')
 const passport = require('../config/auth')
 const authenticate = passport.authorize('jwt', { session: false })
 
@@ -50,6 +50,25 @@ router.get('/users', authenticate, (req, res, next) => {
     .catch((error) => next(error))
   }
 })
+
+router.post('/docs', authenticate, (req, res, next) => {
+  const email = req.body.email
+  if (!req.account) {
+    const error = new Error('Unauthorized')
+    error.status = 401
+    next(error)
+  }
+
+  UserDoc.all()
+   .then((docs) => {
+     const userContracts = docs.filter(d=>d.userEmail === email)
+     const contracts = userContracts.map((u) => ({cloudinaryFileName: u.cloudinaryFileName,
+       cloudinaryURL: u.cloudinaryURL, createdAt: u.createdAt}))
+     res.json(contracts)})
+   .catch((error) => next(error))
+
+})
+
 
 
 module.exports = router
