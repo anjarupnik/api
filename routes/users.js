@@ -51,36 +51,24 @@ router.get('/users', authenticate, (req, res, next) => {
   }
 })
 
-
-router.post('/docs', authenticate, (req, res, next) => {
-  const email = req.body.email
-  if (!req.account) {
+router.get('/docs', authenticate, (req, res, next) => {
+  if (!req.account && req.account.admin === false) {
     const error = new Error('Unauthorized')
     error.status = 401
     next(error)
   }
+  else {
 
   UserDoc.all()
    .then((docs) => {
-     const userContracts = docs.filter(d=>d.userEmail === email)
-     const contracts = userContracts.map((u) => ({cloudinaryFileName: u.cloudinaryFileName,
-       cloudinaryURL: u.cloudinaryURL, createdAt: u.createdAt}))
-     res.json(contracts)})
+     const userContracts = docs.map((c) =>
+     ({email: c.userEmail, name: c.userName, cloudinaryFileName: c.cloudinaryFileName,
+       cloudinaryURL: c.cloudinaryURL, paid: c.paidContract, checked: c.checkedContract,
+       createdAt: c.createdAt }))
+     res.json(userContracts)
+   })
    .catch((error) => next(error))
-
-})
-
-router.patch('/userdocs/:id', (req, res, next) => {
-  return UserDoc.findById(req.params.id)
-   .then((userDoc) => {
-      if (!userDoc) { return next() }
-      return userDoc
-        .update({
-          checkedContract: !(userDoc.checkedContract)
-        })
-    .then(() => res.status(201).send("Document set to checked"))
-    .catch((error) => next(error))
-  })
+  }
 })
 
 
