@@ -51,5 +51,4 @@ router.get('/users', authenticate, (req, res, next) => {
   }
 })
 
-
 module.exports = router
