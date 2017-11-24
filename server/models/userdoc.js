@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   var UserDoc = sequelize.define('UserDoc', {
     userEmail: DataTypes.STRING,
+    userName: DataTypes.STRING,
     cloudinaryFileName: DataTypes.STRING,
     cloudinaryURL: DataTypes.STRING,
     paidContract: DataTypes.BOOLEAN,

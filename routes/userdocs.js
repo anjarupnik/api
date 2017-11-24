@@ -54,12 +54,44 @@ router.post('/userdocs', (req, res, next) => {
 
   UserDoc.create({
     userEmail: resUserEmail,
+    userName: resUserName,
     cloudinaryFileName: resCloudinaryFileName,
     cloudinaryURL: resCloudinaryURL,
     paidContract: resUserPaid
   })
     .then(user=> res.status(201).send("I have your document"))
     .catch(error => res.status(400).send(error));
+})
+
+router.post('/docs', authenticate, (req, res, next) => {
+  const email = req.body.email
+  if (!req.account) {
+    const error = new Error('Unauthorized')
+    error.status = 401
+    next(error)
+  }
+
+  UserDoc.all()
+   .then((docs) => {
+     const userContracts = docs.filter(d=>d.userEmail === email)
+     const contracts = userContracts.map((u) => ({cloudinaryFileName: u.cloudinaryFileName,
+       cloudinaryURL: u.cloudinaryURL, createdAt: u.createdAt}))
+     res.json(contracts)})
+   .catch((error) => next(error))
+
+})
+
+router.patch('/userdocs/:id', (req, res, next) => {
+  return UserDoc.findById(req.params.id)
+   .then((userDoc) => {
+      if (!userDoc) { return next() }
+      return userDoc
+        .update({
+          checkedContract: !(userDoc.checkedContract)
+        })
+    .then(() => res.status(201).send("Document set to checked"))
+    .catch((error) => next(error))
+  })
 })
 
 module.exports = router
