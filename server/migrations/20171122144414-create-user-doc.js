@@ -8,14 +8,18 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      gooDriDocId: {
-        type: Sequelize.STRING
-      },
       userEmail: {
         allowNull: false,
         type: Sequelize.STRING,
-        // references: 'users',
-        // referencesKey: 'id'
+      },
+      cloudinaryFileName: {
+        type: Sequelize.STRING
+      },
+      cloudinaryURL: {
+        type: Sequelize.STRING
+      },
+      paidContract: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

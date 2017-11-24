@@ -1,8 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var UserDoc = sequelize.define('UserDoc', {
-    gooDriDocId: DataTypes.STRING,
-    userEmail: DataTypes.STRING
+    userEmail: DataTypes.STRING,
+    cloudinaryFileName: DataTypes.STRING,
+    cloudinaryURL: DataTypes.STRING,
+    paidContract: DataTypes.BOOLEAN
   }, {
     classMethods: {
       associate: function(models) {
