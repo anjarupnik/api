@@ -32,7 +32,7 @@ router.post('/userdocs', (req, res, next) => {
       from: 'legaljoemailer@gmail.com', // sender address
       to: 'legaljoemailer@gmail.com', // list of receivers
       subject: `${resUserEmail}`, // Subject line
-      text: userText, // plaintext body
+      text: `Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}`, // plaintext body
   };
   console.log(mailOptions)
 
