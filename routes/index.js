@@ -3,6 +3,7 @@ const sessions = require('./sessions')
 const userdocs = require('./userdocs')
 const items = require('./items')
 const themes = require('./themes')
+const admins = require('./admins')
 
 module.exports = {
   users,
@@ -10,4 +11,5 @@ module.exports = {
   userdocs,
   items,
   themes,
+  admins,
 }

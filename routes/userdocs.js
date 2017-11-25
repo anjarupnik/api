@@ -77,7 +77,7 @@ router.post('/docs', authenticate, (req, res, next) => {
    .then((docs) => {
      const userContracts = docs.filter(d=>d.userEmail === email)
      const contracts = userContracts.map((u) => ({cloudinaryFileName: u.cloudinaryFileName,
-       cloudinaryURL: u.cloudinaryURL, createdAt: u.createdAt}))
+       cloudinaryURL: u.cloudinaryURL, createdAt: u.createdAt, checked: u.checkedContract}))
      res.json(contracts)})
    .catch((error) => next(error))
 
