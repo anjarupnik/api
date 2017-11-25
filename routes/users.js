@@ -33,43 +33,6 @@ router.get('/users/me', authenticate, (req, res, next) => {
      email: req.account.username, id: req.account.id})
 })
 
-router.get('/users', authenticate, (req, res, next) => {
-  if (!req.account && req.account.admin === false) {
-    const error = new Error('Unauthorized')
-    error.status = 401
-    next(error)
-  }
-  else {
-    User.all()
-    .then((users) => {
-      const noAdmin = users.filter(u=>u.admin === false)
-      const userDetails = noAdmin.map((u) =>
-       ({firstName: u.firstName, lastName: u.lastName,
-         email: u.username, id: u.id}))
-      res.json(userDetails)})
-    .catch((error) => next(error))
-  }
-})
-
-router.get('/docs', authenticate, (req, res, next) => {
-  if (!req.account && req.account.admin === false) {
-    const error = new Error('Unauthorized')
-    error.status = 401
-    next(error)
-  }
-  else {
-
-  UserDoc.all()
-   .then((docs) => {
-     const userContracts = docs.map((c) =>
-     ({email: c.userEmail, name: c.userName, cloudinaryFileName: c.cloudinaryFileName,
-       cloudinaryURL: c.cloudinaryURL, paid: c.paidContract, checked: c.checkedContract,
-       createdAt: c.createdAt }))
-     res.json(userContracts)
-   })
-   .catch((error) => next(error))
-  }
-})
 
 
 module.exports = router
