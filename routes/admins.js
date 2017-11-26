@@ -30,7 +30,9 @@ router.get('/docs', authenticate, (req, res, next) => {
   }
   else {
 
-  UserDoc.all()
+  UserDoc.findAll({
+    order: [['createdAt', 'DESC']]
+ })
    .then((docs) => {
      const userContracts = docs.map((c) =>
      ({email: c.userEmail, name: c.userName, cloudinaryFileName: c.cloudinaryFileName,

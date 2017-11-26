@@ -73,8 +73,10 @@ router.post('/docs', authenticate, (req, res, next) => {
     next(error)
   }
 
-  UserDoc.all()
-   .then((docs) => {
+   UserDoc.findAll({
+      order: [['createdAt', 'DESC']]
+      })
+       .then((docs) => {
      const userContracts = docs.filter(d=>d.userEmail === email)
      const contracts = userContracts.map((u) => ({cloudinaryFileName: u.cloudinaryFileName,
        cloudinaryURL: u.cloudinaryURL, createdAt: u.createdAt, checked: u.checkedContract}))
