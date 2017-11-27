@@ -78,7 +78,7 @@ router.post('/userdocs', (req, res, next) => {
         cloudinaryURL: resCloudinaryURL,
         paidContract: resUserPaid
       })
-        .then(user=> res.status(201).send("I have your document"))
+        .then(user=> res.status(201).send({"received":"true"}))
         .catch(error => res.status(400).send(error));
     })
 })
