@@ -10,7 +10,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon --inspect ."
+    "dev": "nodemon --inspect .",
+    "db:migrate": "node_modules/.bin/sequelize db:migrate"
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
