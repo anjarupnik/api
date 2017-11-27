@@ -2,6 +2,8 @@ const router = require('express').Router()
 const { User, UserDoc } = require('../server/models')
 const passport = require('../config/auth')
 const authenticate = passport.authorize('jwt', { session: false })
+const nodemailer = require('nodemailer')
+const mailPassword = process.env.LEGALJOEPASSWORD
 
 router.post('/users', (req, res, next) => {
   var adminSet = (req.body.username === "admin@email.com") ? true : false
@@ -26,6 +28,29 @@ router.get('/users/me', authenticate, (req, res, next) => {
     error.status = 401
     next(error)
   }
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'legaljoemailer@gmail.com',
+      pass: mailPassword  //this should be set to an env-when we deploy
+    }
+  })
+
+  const mailOptions = {
+      from: 'legaljoemailer@gmail.com',
+      to: req.account.username,
+      subject: 'Welcome To LegalJoe',
+      text: `${req.account.firstName} ${req.account.lastName},\n Welcome to LegalJoe`,
+  }
+
+  transporter.sendMail(mailOptions, function(err, info){
+      if(err){
+          return console.log(err);
+      }
+      console.log('Message sent: ' + info.response);
+  })
+
   if (req.account.admin === true ) {res.json({ firstName: req.account.firstName,
     lastName: req.account.lastName,email: req.account.username, id: req.account.id,
     admin: req.account.admin})}
