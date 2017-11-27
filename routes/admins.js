@@ -4,6 +4,8 @@ const passport = require('../config/auth')
 const authenticate = passport.authorize('jwt', { session: false })
 const nodemailer = require('nodemailer');
 
+const mailPassword = process.env.LEGALJOEPASSWORD
+
 router.get('/users', authenticate, (req, res, next) => {
   if (!req.account && req.account.admin === false) {
     const error = new Error('Unauthorized')
@@ -49,7 +51,7 @@ router.put('/admindocs', (req, res, next) => {
     service: 'gmail',
     auth: {
       user: 'legaljoemailer@gmail.com',
-      pass: 'currentpassword'  //this should be set to an env-when we deploy
+      pass: mailPassword  //this should be set to an env-when we deploy
     }
   });
 

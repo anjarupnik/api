@@ -2,7 +2,9 @@ const router = require('express').Router()
 const { UserDoc } = require('../server/models')
 const nodemailer = require('nodemailer');
 const passport = require('../config/auth')
-const authenticate = passport.authorize('jwt', { session: false })
+const authenticate = passport.authorize('jwt', { session: false });
+
+const mailPassword = process.env.LEGALJOEPASSWORD
 
 //send an email with the input text
 router.post('/userdocs', (req, res, next) => {
@@ -11,32 +13,39 @@ router.post('/userdocs', (req, res, next) => {
     service: 'gmail',
     auth: {
       user: 'legaljoemailer@gmail.com',
-      pass: 'currentpassword'  //this should be set to an env-when we deploy
+      pass: mailPassword //this should be set to an env-when we deploy
     }
   });
 
   const resUserName = req.body.data.tags[0]
   const resUserEmail = req.body.data.tags[1]
-  const resUserPaid = (req.body.data.tags[2] === "true")? true : false
+  const resUserPaid = (req.body.data.tags[2] === "true") ? true : false
 
   const resCloudinaryURL = req.body.data.secure_url
   const resCloudinaryFileName = req.body.data.public_id
 
-  var userText = (resUserPaid === true)? ('Je hebt gekozen voor de betaalde service, je contract wordt niet toegevoegd aan de Database') : ('Je hebt gekozen voor de gratis Contract Analyse, je contract is toegevoegd aan mijn database')
+  var userText = (resUserPaid === true)
+  ? ('Je hebt gekozen voor de betaalde service, je contract wordt niet toegevoegd aan de Database')
+  : ('Je hebt gekozen voor de gratis Contract Analyse, je contract is toegevoegd aan mijn database')
+
   // setup e-mail data with unicode symbols
     console.log(userText)
   const mailOptions = {
       from: 'legaljoemailer@gmail.com', // sender address
       to: resUserEmail, // list of receivers
-      subject: 'Sent contract', // Subject line
+      subject: 'Contract ontvangen', // Subject line
       text: userText, // plaintext body
   };
+
+  var joeText = (resUserPaid === true)
+  ? (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft voor de betaalde optie gekozen`)
+  : (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft de gratis optie gekozen`)
 
   const mailJoe = {
       from: 'legaljoemailer@gmail.com', // sender address
       to: 'legaljoemailer@gmail.com', // list of receivers
       subject: `${resUserEmail}`, // Subject line
-      text: `Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}`, // plaintext body
+      text: joeText, // plaintext body
   };
   console.log(mailOptions)
 
