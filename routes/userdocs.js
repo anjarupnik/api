@@ -20,6 +20,8 @@ router.post('/userdocs', (req, res, next) => {
   const resUserName = req.body.data.tags[0]
   const resUserEmail = req.body.data.tags[1]
   const resUserPaid = (req.body.data.tags[2] === "true") ? true : false
+  const userId = req.body.data.tags[3]
+
   var subjectOne = ""
   var textPaid = ""
   var textFree = ""
@@ -55,7 +57,6 @@ router.post('/userdocs', (req, res, next) => {
           subject: `${resUserEmail}`, // Subject line
           text: joeText, // plaintext body
       };
-      console.log(mailOptions)
 
       transporter.sendMail(mailOptions, function(err, info){
           if(err){
@@ -76,14 +77,15 @@ router.post('/userdocs', (req, res, next) => {
         userName: resUserName,
         cloudinaryFileName: resCloudinaryFileName,
         cloudinaryURL: resCloudinaryURL,
-        paidContract: resUserPaid
+        paidContract: resUserPaid,
+        userId: userId
       })
         .then(user=> res.status(201).send({"received":"true"}))
         .catch(error => res.status(400).send(error));
     })
 })
 router.post('/docs', authenticate, (req, res, next) => {
-  const email = req.body.email
+  const id = req.body.id
   if (!req.account) {
     const error = new Error('Unauthorized')
     error.status = 401
@@ -94,7 +96,7 @@ router.post('/docs', authenticate, (req, res, next) => {
       order: [['createdAt', 'DESC']]
       })
        .then((docs) => {
-     const userContracts = docs.filter(d=>d.userEmail === email)
+     const userContracts = docs.filter(d=>d.userId == id)
      const contracts = userContracts.map((u) => ({cloudinaryFileName: u.cloudinaryFileName,
        cloudinaryURL: u.cloudinaryURL, createdAt: u.createdAt, checked: u.checkedContract}))
      res.json(contracts)})
