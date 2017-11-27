@@ -19,29 +19,11 @@ module.exports = {
   Email
 }
 
-let sequelize, match, herokuConfig;
-if (process.env.DATABASE_URL) {
-  match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/);
-
-  herokuConfig = {
-    user: match[1],
-    pass: match[2],
-    base: match[5],
-    options: {
-      dialect: 'postgres',
-      protocol: 'postgres',
-      host: match[3],
-      logging: true,
-      port: match[4],
-      dialectOptions: {
-          ssl: true
-      }
-    }
-  };
-}
-
-if (herokuConfig) {
-  sequelize = new Sequelize(herokuConfig.base, herokuConfig.user, herokuConfig.pass, herokuConfig.options);
+let sequelize;
+if (env === 'production') {
+  sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+    dialect: 'postgres', protocol: 'postgres', host: process.env.DB_HOST, logging: true, port: process.env.DB_PORT
+  })
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config)
 }
