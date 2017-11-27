@@ -6,24 +6,6 @@ const nodemailer = require('nodemailer');
 
 const mailPassword = process.env.LEGALJOEPASSWORD
 
-router.get('/users', authenticate, (req, res, next) => {
-  if (!req.account && req.account.admin === false) {
-    const error = new Error('Unauthorized')
-    error.status = 401
-    next(error)
-  }
-  else {
-    User.all()
-    .then((users) => {
-      const noAdmin = users.filter(u=>u.admin === false)
-      const userDetails = noAdmin.map((u) =>
-       ({firstName: u.firstName, lastName: u.lastName,
-         email: u.username, id: u.id}))
-      res.json(userDetails)})
-    .catch((error) => next(error))
-  }
-})
-
 router.get('/docs', authenticate, (req, res, next) => {
   if (!req.account && req.account.admin === false) {
     const error = new Error('Unauthorized')
@@ -102,8 +84,8 @@ router.get('/emails', authenticate, (req, res, next) => {
   }
   else {
 
-  Email.findById(1)
-   .then(email => res.json(email))
+  Email.findAll({ limit: 1 })
+   .then(email => res.json(email[0]))
    .catch((error) => next(error))
   }
 })
@@ -116,7 +98,7 @@ router.get('/emails', authenticate, (req, res, next) => {
   }
   else {
    return Email
-    .findById(1)
+    .findById(req.body.id)
     .then((email) => {
        if (!email) { return next() }
        return email

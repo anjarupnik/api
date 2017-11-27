@@ -5,8 +5,8 @@ const { Theme } = require('../server/models')
 const authenticate = passport.authorize('jwt', { session: false })
 
 router.get('/themes', (req, res, next) => {
-  Theme.findById(1)
-    .then((theme) => res.json(theme))
+  Theme.findAll({ limit: 1 })
+    .then((theme) => res.json(theme[0]))
     .catch((error) => next(error))
   })
 
