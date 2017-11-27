@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { UserDoc } = require('../server/models')
 const nodemailer = require('nodemailer');
 const passport = require('../config/auth')
-const authenticate = passport.authorize('jwt', { session: false })
+const authenticate = passport.authorize('jwt', { session: false });
 
 const mailPassword = process.env.LEGALJOEPASSWORD
 
@@ -39,7 +39,7 @@ router.post('/userdocs', (req, res, next) => {
 
   var joeText = (resUserPaid === true)
   ? (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft voor de betaalde optie gekozen`)
-  ? (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft de gratis optie gekozen`)
+  : (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft de gratis optie gekozen`)
 
   const mailJoe = {
       from: 'legaljoemailer@gmail.com', // sender address
