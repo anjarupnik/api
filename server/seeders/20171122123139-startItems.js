@@ -13,6 +13,7 @@ module.exports = {
            title: 'Contract Analyse',
            subtitle: 'Ik ben Joe, ik laat je binnen 24 uur weten wat een ZZP contract voor jou betekent.(Ik zorg dat je altijd aan de slag kunt na een opdracht)',
            content: 'Ik zoek afwijkende clausules in jouw contract, zoals concurrentiebedingen, onredelijke aansprakelijkheid & vrijwaringen.',
+           urls: ['http://hvglawblogs.nl/wp-content/uploads/2017/06/contract-1255x720.jpg'],
            createdAt: Sequelize.fn('NOW'),
            updatedAt: Sequelize.fn('NOW')
          },{
