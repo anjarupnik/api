@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User, UserDoc } = require('../server/models')
+const { User, UserDoc, Email } = require('../server/models')
 const passport = require('../config/auth')
 const authenticate = passport.authorize('jwt', { session: false })
 const nodemailer = require('nodemailer');
@@ -61,12 +61,16 @@ router.put('/admindocs', (req, res, next) => {
 
   const resCloudinaryURL = req.body.data.secure_url
   const resCloudinaryFileName = req.body.data.public_id
+Email.findById(1)
+  .then((email) => {
+    subjectTwo = email.subjectTwo,
+    textChecked = email.textChecked
 
   const mailOptions = {
       from: 'legaljoemailer@gmail.com',
       to: resUserEmail,
-      subject: 'Overviewed contract',
-      text: `Het contract is hier: ${resCloudinaryURL}`,
+      subject: subjectTwo,
+      text: textChecked + `\nHet contract is hier: ${resCloudinaryURL}`,
   }
 
   transporter.sendMail(mailOptions, function(err, info){
@@ -86,10 +90,48 @@ router.put('/admindocs', (req, res, next) => {
        })
    .then(() => res.json(doc))
    .catch((error) => next(error))
+  })
  })
 })
 
+router.get('/emails', authenticate, (req, res, next) => {
+  if (!req.account && req.account.admin === false) {
+    const error = new Error('Unauthorized')
+    error.status = 401
+    next(error)
+  }
+  else {
 
+  Email.findById(1)
+   .then(email => res.json(email))
+   .catch((error) => next(error))
+  }
+})
+
+  .put('/emails', authenticate, (req, res, next) => {
+  if (req.account.admin === false) {
+   const error = new Error('Unauthorized')
+   error.status = 401
+   next(error)
+  }
+  else {
+   return Email
+    .findById(1)
+    .then((email) => {
+       if (!email) { return next() }
+       return email
+         .update({
+           subjectOne: req.body.subjectOne || email.subjectOne,
+           subjectTwo: req.body.subjectTwo || email.subjectTwo,
+           textPaid: req.body.textPaid || email.textPaid,
+           textFree: req.body.textFree || email.textFree,
+           textChecked: req.body.textChecked || email.textChecked
+         })
+     .then(() => res.json(email))
+     .catch((error) => next(error))
+   })
+  }
+  })
 
 
 

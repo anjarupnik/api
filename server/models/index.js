@@ -9,12 +9,14 @@ const User = require('./user')
 const UserDoc = require('./userdoc')
 const pageItem = require('./pageitem')
 const Theme = require('./theme')
+const Email = require('./email')
 
 module.exports = {
   User,
   UserDoc,
   pageItem,
-  Theme
+  Theme,
+  Email
 }
 
 let sequelize;

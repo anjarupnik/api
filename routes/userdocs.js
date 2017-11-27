@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { UserDoc } = require('../server/models')
+const { UserDoc, Email } = require('../server/models')
 const nodemailer = require('nodemailer');
 const passport = require('../config/auth')
 const authenticate = passport.authorize('jwt', { session: false });
@@ -20,60 +20,68 @@ router.post('/userdocs', (req, res, next) => {
   const resUserName = req.body.data.tags[0]
   const resUserEmail = req.body.data.tags[1]
   const resUserPaid = (req.body.data.tags[2] === "true") ? true : false
+  var subjectOne = ""
+  var textPaid = ""
+  var textFree = ""
 
-  const resCloudinaryURL = req.body.data.secure_url
-  const resCloudinaryFileName = req.body.data.public_id
+  Email.findById(1)
+    .then((email) => {
+      subjectOne = email.subjectOne,
+      textPaid = email.textPaid,
+      textFree = email.textFree
 
-  var userText = (resUserPaid === true)
-  ? ('Je hebt gekozen voor de betaalde service, je contract wordt niet toegevoegd aan de Database')
-  : ('Je hebt gekozen voor de gratis Contract Analyse, je contract is toegevoegd aan mijn database')
+      const resCloudinaryURL = req.body.data.secure_url
+      const resCloudinaryFileName = req.body.data.public_id
 
-  // setup e-mail data with unicode symbols
-    console.log(userText)
-  const mailOptions = {
-      from: 'legaljoemailer@gmail.com', // sender address
-      to: resUserEmail, // list of receivers
-      subject: 'Contract ontvangen', // Subject line
-      text: userText, // plaintext body
-  };
+      var userText = (resUserPaid === true)
+      ? (textPaid)
+      : (textFree)
 
-  var joeText = (resUserPaid === true)
-  ? (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft voor de betaalde optie gekozen`)
-  : (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft de gratis optie gekozen`)
+      // setup e-mail data with unicode symbols
+      const mailOptions = {
+          from: 'legaljoemailer@gmail.com', // sender address
+          to: resUserEmail, // list of receivers
+          subject: subjectOne, // Subject line
+          text: userText, // plaintext body
+      };
 
-  const mailJoe = {
-      from: 'legaljoemailer@gmail.com', // sender address
-      to: 'legaljoemailer@gmail.com', // list of receivers
-      subject: `${resUserEmail}`, // Subject line
-      text: joeText, // plaintext body
-  };
-  console.log(mailOptions)
+      var joeText = (resUserPaid === true)
+      ? (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft voor de betaalde optie gekozen`)
+      : (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft de gratis optie gekozen`)
 
-  transporter.sendMail(mailOptions, function(err, info){
-      if(err){
-          return console.log(err);
-      }
-      console.log('Message sent: ' + info.response);
-  });
+      const mailJoe = {
+          from: 'legaljoemailer@gmail.com', // sender address
+          to: 'legaljoemailer@gmail.com', // list of receivers
+          subject: `${resUserEmail}`, // Subject line
+          text: joeText, // plaintext body
+      };
+      console.log(mailOptions)
 
-  transporter.sendMail(mailJoe, function(err, info){
-      if(err){
-          return console.log(err);
-      }
-      console.log('Message sent: ' + info.response);
-  });
+      transporter.sendMail(mailOptions, function(err, info){
+          if(err){
+              return console.log(err);
+          }
+          console.log('Message sent: ' + info.response);
+      });
 
-  UserDoc.create({
-    userEmail: resUserEmail,
-    userName: resUserName,
-    cloudinaryFileName: resCloudinaryFileName,
-    cloudinaryURL: resCloudinaryURL,
-    paidContract: resUserPaid
-  })
-    .then(user=> res.status(201).send("I have your document"))
-    .catch(error => res.status(400).send(error));
+      transporter.sendMail(mailJoe, function(err, info){
+          if(err){
+              return console.log(err);
+          }
+          console.log('Message sent: ' + info.response);
+      });
+
+      UserDoc.create({
+        userEmail: resUserEmail,
+        userName: resUserName,
+        cloudinaryFileName: resCloudinaryFileName,
+        cloudinaryURL: resCloudinaryURL,
+        paidContract: resUserPaid
+      })
+        .then(user=> res.status(201).send("I have your document"))
+        .catch(error => res.status(400).send(error));
+    })
 })
-
 router.post('/docs', authenticate, (req, res, next) => {
   const email = req.body.email
   if (!req.account) {
@@ -92,19 +100,6 @@ router.post('/docs', authenticate, (req, res, next) => {
      res.json(contracts)})
    .catch((error) => next(error))
 
-})
-
-router.patch('/userdocs/:id', (req, res, next) => {
-  return UserDoc.findById(req.params.id)
-   .then((userDoc) => {
-      if (!userDoc) { return next() }
-      return userDoc
-        .update({
-          checkedContract: !(userDoc.checkedContract)
-        })
-    .then(() => res.status(201).send("Document set to checked"))
-    .catch((error) => next(error))
-  })
 })
 
 module.exports = router
