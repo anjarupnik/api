@@ -3,6 +3,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Emails', [{
+         subjectOne: 'Welcome To LegalJoe',
+         textChecked: 'Welcome to LegalJoe',         
+         createdAt: Sequelize.fn('NOW'),
+         updatedAt: Sequelize.fn('NOW')
+       },{
          subjectOne: 'Contract ontvangen',
          subjectTwo: 'Overviewed contract',
          textPaid: 'Je hebt gekozen voor de betaalde service, je contract wordt niet toegevoegd aan de Database',
@@ -10,7 +15,7 @@ module.exports = {
          textChecked: 'Uw contract is gecheckt.',
          createdAt: Sequelize.fn('NOW'),
          updatedAt: Sequelize.fn('NOW')
-       }], {});
+          }], {});
   },
 
   down: (queryInterface, Sequelize) => {

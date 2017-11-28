@@ -43,10 +43,10 @@ router.put('/admindocs', (req, res, next) => {
 
   const resCloudinaryURL = req.body.data.secure_url
   const resCloudinaryFileName = req.body.data.public_id
-Email.findById(1)
+Email.findAll({ limit: 1 })
   .then((email) => {
-    subjectTwo = email.subjectTwo,
-    textChecked = email.textChecked
+    subjectTwo = email[0].subjectTwo,
+    textChecked = email[0].textChecked
 
   const mailOptions = {
       from: 'legaljoemailer@gmail.com',
@@ -84,8 +84,8 @@ router.get('/emails', authenticate, (req, res, next) => {
   }
   else {
 
-  Email.findAll({ limit: 1 })
-   .then(email => res.json(email[0]))
+  Email.findAll()
+   .then(email => res.json(email))
    .catch((error) => next(error))
   }
 })
