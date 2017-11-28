@@ -26,8 +26,9 @@ router.post('/userdocs', (req, res, next) => {
   var textPaid = ""
   var textFree = ""
 
-  Email.findAll({ limit: 1 })
-    .then((email) => {
+  Email.findAll()
+    .then((emails) => {
+      const email = emails.filter(e=>e.textPaid !== null)
       subjectOne = email[0].subjectOne,
       textPaid = email[0].textPaid,
       textFree = email[0].textFree

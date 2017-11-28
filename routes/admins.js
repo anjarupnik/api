@@ -43,8 +43,10 @@ router.put('/admindocs', (req, res, next) => {
 
   const resCloudinaryURL = req.body.data.secure_url
   const resCloudinaryFileName = req.body.data.public_id
-Email.findAll({ limit: 1 })
-  .then((email) => {
+
+Email.findAll()
+  .then((emails) => {
+    const email = emails.filter(e=>e.textPaid !== null)
     subjectTwo = email[0].subjectTwo,
     textChecked = email[0].textChecked
 

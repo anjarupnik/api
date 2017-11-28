@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User, UserDoc } = require('../server/models')
+const { User, UserDoc, Email } = require('../server/models')
 const passport = require('../config/auth')
 const authenticate = passport.authorize('jwt', { session: false })
 const nodemailer = require('nodemailer')
@@ -7,6 +7,36 @@ const mailPassword = process.env.LEGALJOEPASSWORD
 
 router.post('/users', (req, res, next) => {
   var adminSet = (req.body.username === "admin@email.com") ? true : false
+  var subjectOne = ""
+  var textChecked = ""
+
+  Email.findAll()
+    .then((emails) => {
+      const email = emails.filter(e=>e.textPaid === null)
+      subjectOne = email[0].subjectOne,
+      text = email[0].textChecked
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'legaljoemailer@gmail.com',
+      pass: mailPassword  //this should be set to an env-when we deploy
+    }
+  })
+
+  const mailOptions = {
+      from: 'legaljoemailer@gmail.com',
+      to: req.body.username,
+      subject: subjectOne,
+      text: `${req.body.firstName} ${req.body.lastName},\n ${text}`,
+  }
+
+  transporter.sendMail(mailOptions, function(err, info){
+      if(err){
+          return console.log(err);
+      }
+      console.log('Message sent: ' + info.response);
+  })
 
   User.create({
      firstName: req.body.firstName,
@@ -19,8 +49,9 @@ router.post('/users', (req, res, next) => {
          lastName: user.lastName
          }))
       .catch(error => res.status(400).send(error));
-
+ })
 })
+
 
 router.get('/users/me', authenticate, (req, res, next) => {
   if (!req.account) {
@@ -28,28 +59,6 @@ router.get('/users/me', authenticate, (req, res, next) => {
     error.status = 401
     next(error)
   }
-
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'legaljoemailer@gmail.com',
-      pass: mailPassword  //this should be set to an env-when we deploy
-    }
-  })
-
-  const mailOptions = {
-      from: 'legaljoemailer@gmail.com',
-      to: req.account.username,
-      subject: 'Welcome To LegalJoe',
-      text: `${req.account.firstName} ${req.account.lastName},\n Welcome to LegalJoe`,
-  }
-
-  transporter.sendMail(mailOptions, function(err, info){
-      if(err){
-          return console.log(err);
-      }
-      console.log('Message sent: ' + info.response);
-  })
 
   if (req.account.admin === true ) {res.json({ firstName: req.account.firstName,
     lastName: req.account.lastName,email: req.account.username, id: req.account.id,
