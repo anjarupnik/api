@@ -26,11 +26,11 @@ router.post('/userdocs', (req, res, next) => {
   var textPaid = ""
   var textFree = ""
 
-  Email.findById(1)
+  Email.findAll({ limit: 1 })
     .then((email) => {
-      subjectOne = email.subjectOne,
-      textPaid = email.textPaid,
-      textFree = email.textFree
+      subjectOne = email[0].subjectOne,
+      textPaid = email[0].textPaid,
+      textFree = email[0].textFree
 
       const resCloudinaryURL = req.body.data.secure_url
       const resCloudinaryFileName = req.body.data.public_id
