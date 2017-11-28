@@ -2,14 +2,14 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const passport = require('./config/auth')
-const http = require('http')
+const https = require('https')
 
 const { users, sessions, items, userdocs, themes, admins } = require('./routes')
 
 const port = process.env.PORT || 3030
 
 const app = express()
-const server = http.Server(app)
+const server = https.Server(app)
 
 app
   .use(cors())

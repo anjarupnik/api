@@ -8,6 +8,7 @@
     "dialect": "postgres"
   },
   "test": {
+    "username": "frisostoker",
     "username": "ernst",
     "password": "batman",
     "database": "database_test",
