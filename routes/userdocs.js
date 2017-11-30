@@ -43,7 +43,7 @@ router.post('/userdocs', (req, res, next) => {
 
       // setup e-mail data with unicode symbols
       const mailOptions = {
-          from: 'legaljoemailer@gmail.com', // sender address
+          from: mailUsername, // sender address
           to: resUserEmail, // list of receivers
           subject: subjectOne, // Subject line
           text: userText, // plaintext body
@@ -54,8 +54,8 @@ router.post('/userdocs', (req, res, next) => {
       : (`Contract is verstuurd met volgende tekst: "${userText}" Het contract is hier: ${resCloudinaryURL}. De klant heeft de gratis optie gekozen`)
 
       const mailJoe = {
-          from: 'legaljoemailer@gmail.com', // sender address
-          to: 'legaljoemailer@gmail.com', // list of receivers
+          from: mailUsername, // sender address
+          to: mailUsername, // list of receivers
           subject: `${resUserEmail}`, // Subject line
           text: joeText, // plaintext body
       };

@@ -3,7 +3,9 @@ const { User, UserDoc, Email } = require('../server/models')
 const passport = require('../config/auth')
 const authenticate = passport.authorize('jwt', { session: false })
 const nodemailer = require('nodemailer')
+
 const mailPassword = process.env.LEGALJOEPASSWORD
+const mailUsername = process.env.LEGALJOEEMAIL
 
 router.post('/users', (req, res, next) => {
   var adminSet = (req.body.username === "admin@email.com") ? true : false
@@ -19,13 +21,13 @@ router.post('/users', (req, res, next) => {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'legaljoemailer@gmail.com',
+      user: mailUsername,
       pass: mailPassword  //this should be set to an env-when we deploy
     }
   })
 
   const mailOptions = {
-      from: 'legaljoemailer@gmail.com',
+      from: mailUsername,
       to: req.body.username,
       subject: subjectOne,
       text: `${req.body.firstName} ${req.body.lastName},\n ${text}`,
