@@ -5,6 +5,7 @@ const authenticate = passport.authorize('jwt', { session: false })
 const nodemailer = require('nodemailer');
 
 const mailPassword = process.env.LEGALJOEPASSWORD
+const mailUsername = process.env.LEGALJOEEMAIL
 
 router.get('/docs', authenticate, (req, res, next) => {
   if (!req.account && req.account.admin === false) {
@@ -32,7 +33,7 @@ router.put('/admindocs', (req, res, next) => {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'legaljoemailer@gmail.com',
+      user: mailUsername,
       pass: mailPassword  //this should be set to an env-when we deploy
     }
   });
@@ -51,7 +52,7 @@ Email.findAll()
     textChecked = email[0].textChecked
 
   const mailOptions = {
-      from: 'legaljoemailer@gmail.com',
+      from: mailUsername,
       to: resUserEmail,
       subject: subjectTwo,
       text: textChecked + `\nHet contract is hier: ${resCloudinaryURL}`,
