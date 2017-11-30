@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "ernst",
+    "username": "anja",
     "password": "batman",
     "database": "legaljoe",
     "host": "127.0.0.1",
@@ -9,7 +9,7 @@
   },
   "test": {
     "username": "frisostoker",
-    "username": "ernst",
+    "username": "anja",
     "password": "batman",
     "database": "database_test",
     "host": "127.0.0.1",

@@ -5,7 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert('pageItems', [{
            name: 'points',
            title: 'Wie ben ik?',
-           content: 'Ik ben een Artificial Intelligence bot, die tekst kan lezen. Hoe meer contracten ik lees hoe sneller ik analyseer. Ik heb al honderden contracten gelezen. Inmiddels zie ik heel snel het verschil tussen een goed contract en eenzijdig contract. Als je wilt dat er na de analyse een advocaat naar kijkt kunnen we je koppelen aan een advocaat. (via Legalmatters.com) Ik kan .docx documenten en pdf lezen. Liever Docx',
+           content: 'Ik ben een Artificial Intelligence bot, die tekst kan lezen. Hoe meer contracten ik lees hoe sneller ik analyseer. Ik heb al honderden contracten gelezen. Inmiddels zie ik heel snel het verschil tussen een goed contract en eenzijdig contract. Ik kan .docx documenten en pdf lezen. Liever Docx',
            createdAt: Sequelize.fn('NOW'),
            updatedAt: Sequelize.fn('NOW')
          },{
@@ -25,6 +25,7 @@ module.exports = {
          },{
            name: 'examples',
            title: 'Wat ik doe',
+           content: 'Ik lees je contracten en onderstreep waar je op moet letten. Als je wilt dat er na de analyse een advocaat naar kijkt kunnen we je koppelen aan een advocaat. (via Legalmatters.com)',
            urls: ['http://res.cloudinary.com/mdfchucknorris/image/upload/v1511429630/exampleContract1_qdetg7.png', 'http://res.cloudinary.com/mdfchucknorris/image/upload/v1511429634/exampleContract2_yf2vcb.png'],
            createdAt: Sequelize.fn('NOW'),
            updatedAt: Sequelize.fn('NOW')
