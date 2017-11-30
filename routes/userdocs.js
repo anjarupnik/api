@@ -5,6 +5,7 @@ const passport = require('../config/auth')
 const authenticate = passport.authorize('jwt', { session: false });
 
 const mailPassword = process.env.LEGALJOEPASSWORD
+const mailUsername = process.env.LEGALJOEEMAIL
 
 //send an email with the input text
 router.post('/userdocs', (req, res, next) => {
@@ -12,7 +13,7 @@ router.post('/userdocs', (req, res, next) => {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'legaljoemailer@gmail.com',
+      user: mailUsername,
       pass: mailPassword //this should be set to an env-when we deploy
     }
   });
