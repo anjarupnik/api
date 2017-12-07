@@ -14,10 +14,10 @@ module.exports = {
         allowNull: false
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       subtitle: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       content: {
         type: Sequelize.TEXT

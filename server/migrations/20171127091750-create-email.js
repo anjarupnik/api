@@ -15,13 +15,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       textPaid: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       textFree: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       textChecked: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
