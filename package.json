@@ -17,6 +17,7 @@
     "db:migrate:undo:all": "node_modules/.bin/sequelize db:migrate:undo:all"
   },
   "dependencies": {
+    "aws-sdk": "^2.165.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
