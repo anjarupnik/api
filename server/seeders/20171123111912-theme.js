@@ -3,21 +3,21 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Themes', [{
-         primaryOne: '#060c36',
+         primaryOne: '#6fc2be',
          primaryTwo: '#FFC107',
          error: '#FFC107',
          title: '#060c36',
-         titleTwo: '#FFFFFF',
+         titleTwo: '#060c36',
          subtitle: '#060c36',
-         subtitleTwo: '#FFFFFF',
-         textColor: '#3a3737',
-         textTwo: '#00E676',
+         subtitleTwo: '#060c36',
+         textColor: '#060c36',
+         textTwo: '#060c36',
          canvas: '#FFFFFF',
          border: '#DEDEDE',
          disabled: 'rgba(222, 222, 222, 0.7)',
-         fontTitle: 'monospace',
-         fontSubtitle: 'monospace',
-         fontText: 'monospace',
+         fontTitle: 'Roboto Slab, serif',
+         fontSubtitle: 'Lato, sans-serif',
+         fontText: 'Lato, sans-serif',
          createdAt: Sequelize.fn('NOW'),
          updatedAt: Sequelize.fn('NOW')
        }], {});
