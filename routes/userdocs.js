@@ -38,15 +38,17 @@ router.post('/userdocs', (req, res, next) => {
       const resCloudinaryFileName = req.body.data.public_id
 
       var userText = (resUserPaid === true)
-      ? (textPaid)
-      : (textFree)
+      ? (`<p style="font-size:13px;"> Hoi ${resUserName}, <br/><br/>Je hebt gekozen voor de betaalde contract analyse, je contract wordt toegevoegd aan mijn database.<br/><br/>Wie ben ik? Ik ben Joe een Artificial Intelligence advocaat. Ik heb inmiddels honderden contracten gezien en gelezen.<br/><br/>Ik ga voor jou op zoek naar afwijkende clausules in je ZZP contract zodat je weet waar je aan begint.<br/><br/>Je krijgt binnen 24 uur een reactie via email en iDeal link voor de betaling.<br/><br/>-- <br/>Legal Hustler,<br/><br/><img style="height:60px;weight:90px;" src="http://res.cloudinary.com/mdfchucknorris/image/upload/v1512727090/rrkjfc_tboyw3.png"/><br/><br/> "Legal made easy and simple" <br/><br/></p>
+      <p style="font-size:10px;font-style:italic;">Website: <a href="https://legaljoe.nl/" >legaljoe.nl</a><br/>Tel: +31629730740</p><br/><br/>`)
+      : (`<p style="font-size:13px;"> Hoi ${resUserName}, <br/><br/>Je hebt gekozen voor de gratis contract analyse, je contract wordt toegevoegd aan mijn database.<br/><br/>Wie ben ik? Ik ben Joe een Artificial Intelligence advocaat. Ik heb inmiddels honderden contracten gezien en gelezen.<br/><br/>Ik ga voor jou op zoek naar afwijkende clausules in je ZZP contract zodat je weet waar je aan begint.<br/><br/>Je krijgt binnen 24 uur een reactie via email.<br/><br/>-- <br/>Legal Hustler,<br/><br/><img style="height:60px;weight:90px;" src="http://res.cloudinary.com/mdfchucknorris/image/upload/v1512727090/rrkjfc_tboyw3.png"/><br/><br/> "Legal made easy and simple" <br/><br/></p>
+      <p style="font-size:10px;font-style:italic;">Website: <a href="https://legaljoe.nl/">legaljoe.nl</a><br/>Tel: +31629730740</p><br/><br/>`)
 
       // setup e-mail data with unicode symbols
       const mailOptions = {
           from: mailUsername, // sender address
           to: resUserEmail, // list of receivers
-          subject: subjectOne, // Subject line
-          text: userText, // plaintext body
+          subject: 'Legaljoe Contract Analyse', // Subject line
+          html: userText
       };
 
       var joeText = (resUserPaid === true)
