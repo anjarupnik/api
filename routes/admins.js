@@ -94,28 +94,28 @@ router.get('/emails', authenticate, (req, res, next) => {
 })
 
   .put('/emails', authenticate, (req, res, next) => {
-  if (req.account.admin === false) {
-   const error = new Error('Unauthorized')
-   error.status = 401
-   next(error)
-  }
-  else {
-   return Email
-    .findById(req.body.id)
-    .then((email) => {
-       if (!email) { return next() }
-       return email
-         .update({
-           subjectOne: req.body.subjectOne || email.subjectOne,
-           subjectTwo: req.body.subjectTwo || email.subjectTwo,
-           textPaid: req.body.textPaid || email.textPaid,
-           textFree: req.body.textFree || email.textFree,
-           textChecked: req.body.textChecked || email.textChecked
-         })
-     .then(() => res.json(email))
-     .catch((error) => next(error))
-   })
-  }
+    if (req.account.admin === false) {
+     const error = new Error('Unauthorized')
+     error.status = 401
+     next(error)
+    }
+    else {
+     return Email
+      .findById(req.body.id)
+      .then((email) => {
+         if (!email) { return next() }
+         return email
+           .update({
+             subjectOne: req.body.subjectOne || email.subjectOne,
+             subjectTwo: req.body.subjectTwo || email.subjectTwo,
+             textPaid: req.body.textPaid || email.textPaid,
+             textFree: req.body.textFree || email.textFree,
+             textChecked: req.body.textChecked || email.textChecked
+           })
+       .then(() => res.json(email))
+       .catch((error) => next(error))
+     })
+    }
   })
 
 

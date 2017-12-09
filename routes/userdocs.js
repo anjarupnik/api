@@ -86,6 +86,7 @@ router.post('/userdocs', (req, res, next) => {
         .catch(error => res.status(400).send(error));
     })
 })
+
 router.post('/docs', authenticate, (req, res, next) => {
   const id = req.body.id
   if (!req.account) {

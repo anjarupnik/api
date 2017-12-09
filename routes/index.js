@@ -4,6 +4,7 @@ const userdocs = require('./userdocs')
 const items = require('./items')
 const themes = require('./themes')
 const admins = require('./admins')
+const aws = require('./aws')
 
 module.exports = {
   users,
@@ -12,4 +13,5 @@ module.exports = {
   items,
   themes,
   admins,
+  aws,
 }
